@@ -4,7 +4,7 @@
 
 ## プロジェクトの現状
 
-本リポジトリは**まだ実装前**の状態です。現時点で存在するのは `CLAUDE.md`・`README.md`・`specs/`(add/subtract/multiply/divide/deployment/ci/lint)のみで、`apps/`・`tests/`・`pyproject.toml`・`Dockerfile`・`k8s/`・CIワークフロー(`.github/workflows/`)はまだ一切存在しません。
+本リポジトリはマルチエージェント並行実装のPhase0(基盤構築)が完了した状態です。`CLAUDE.md`・`README.md`・`specs/`(add/subtract/multiply/divide/deployment/ci/lint)に加えて、`apps/`(FastAPIインスタンス・`CalculationResponse`のみの雛形)・`tests/`(スモークテスト1件)・`pyproject.toml`・`Dockerfile`・`k8s/`・CIワークフロー(`.github/workflows/`)が導入済みです。四則演算(add/subtract/multiply/divide)のルーター・テストの実装はPhase1でこれから行います。
 
 `specs/`は、別リポジトリでSDD(仕様駆動開発)を行っていた際に作成した要件定義・設計ドキュメントをそのまま引き継いだものです。引き継ぎ元では各 `tasks.md` のチェックボックスはすべて `[x]`(完了)でしたが、本リポジトリでは実装状況を正しく表すため**すべて `[ ]`(未チェック)に戻して**あります。本リポジトリでは要件・設計(`requirements.md`・`design.md`)はそのまま仕様源として使いますが、実装の進め方はSDDではなく**TDD(テスト駆動開発)**で行います(詳細は[TDDでの実装の進め方](#tddでの実装の進め方)を参照)。各項目は、対応する演算のPhase1サイクル(テストエージェント→実装エージェント→レビューエージェント)が完了した時点でチェックを入れていくこと。
 
@@ -93,7 +93,7 @@ specs/
 
 ## 実行環境(Kubernetes)に関する設計判断
 
-詳細は [`specs/deployment/`](specs/deployment/) を参照。**未導入**(`Dockerfile`・`k8s/`マニフェストとも未作成。作成・デプロイ確認は[README.md](README.md)のPhase0/Phase2で行う)。
+詳細は [`specs/deployment/`](specs/deployment/) を参照。**導入済み**(`Dockerfile`・`k8s/namespace.yaml`・`k8s/deployment.yaml`はPhase0で作成済み。Docker Desktop上のKubernetesへのデプロイ・全演算での動作確認は[README.md](README.md)のPhase2で行う)。
 
 - ローカルPCのDocker Desktopで有効化したKubernetes上に、専用Namespace `calculator-api` 配下で `Deployment`リソースとしてデプロイする(本番運用は想定しない)。`default` Namespaceは使用しない。
 - リソース節約を最優先するため、レプリカ数は `1`、`livenessProbe`/`readinessProbe`は設定しない、CPU/メモリの`requests`/`limits`は最小限、という最小構成を維持すること。
@@ -101,7 +101,7 @@ specs/
 
 ## CI(GitHub Actions)に関する設計判断
 
-詳細は [`specs/ci/`](specs/ci/) を参照。**未導入**(ワークフローファイルとも未作成。導入は[README.md](README.md)のPhase0で行う)。
+詳細は [`specs/ci/`](specs/ci/) を参照。**導入済み**(Phase0で`.github/workflows/`配下の2ワークフローを作成済み)。
 
 - `.github/workflows/ci-pull-request.yml`: `main`向けPRの作成・更新時(`pull_request`トリガー)に実行。
 - `.github/workflows/ci-main.yml`: `main`へのpush(マージ)時(`push`トリガー)に実行。

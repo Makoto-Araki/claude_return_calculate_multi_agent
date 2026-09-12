@@ -5,10 +5,10 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /usr/local/bin/
 WORKDIR /app
 
 COPY pyproject.toml uv.lock ./
-RUN uv sync --no-dev --no-editable --no-install-project
+RUN uv sync --frozen --no-dev --no-editable --no-install-project
 
 COPY apps/ apps/
-RUN uv sync --no-dev --no-editable
+RUN uv sync --frozen --no-dev --no-editable
 
 EXPOSE 8000
 
