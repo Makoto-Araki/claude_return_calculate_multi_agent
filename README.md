@@ -202,6 +202,13 @@ foundation/initブランチのPRを /code-review でレビューしてくださ�
 gh pr merge --merge
 ```
 
+マージ後、このリポジトリはリモートブランチの自動削除設定を有効にしていないため、`foundation/init`ブランチを手動で削除しておきます。
+
+```bash
+git branch -d foundation/init
+git push origin --delete foundation/init
+```
+
 **このマージが完了するまでPhase1には進まないこと。**
 
 ---
@@ -349,7 +356,7 @@ git push --force-with-lease
 
 ### ステップ5: worktreeの後片付け【ユーザー・ターミナル】
 
-各PRのマージ後、リモートブランチは自動削除されますが、ローカルworktreeは手動で消します。
+このリポジトリはGitHub側の自動削除設定(`delete_branch_on_merge`)を有効にしていないため、マージ済みのリモートブランチも手動で削除します。ローカルworktree・ローカルブランチとあわせて片付けます。
 
 ```bash
 git worktree remove ../calc-add
@@ -358,6 +365,7 @@ git worktree remove ../calc-multiply
 git worktree remove ../calc-divide
 git worktree prune
 git branch -d feature/add feature/subtract feature/multiply feature/divide
+git push origin --delete feature/add feature/subtract feature/multiply feature/divide
 ```
 
 ---
@@ -422,10 +430,12 @@ integration/verify-allブランチのPRを /code-review でレビューしてく
 
 ### ステップ4: マージ【ユーザー・ターミナル】
 
-レビューエージェントが「レビュー完了・マージ可能」と報告したら、ターミナルでマージします。
+レビューエージェントが「レビュー完了・マージ可能」と報告したら、ターミナルでマージします。このリポジトリはリモートブランチの自動削除設定を有効にしていないため、マージ後に`integration/verify-all`ブランチも手動で削除します。
 
 ```bash
 gh pr merge --merge
+git branch -d integration/verify-all
+git push origin --delete integration/verify-all
 ```
 
 ---
