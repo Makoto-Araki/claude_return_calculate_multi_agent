@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 
 from apps.routers.add import router as add_router
+from apps.routers.divide import router as divide_router
 from apps.routers.multiply import router as multiply_router
 from apps.routers.subtract import router as subtract_router
 
@@ -9,3 +10,4 @@ app = FastAPI(title="calculator-api")
 app.include_router(add_router)
 app.include_router(subtract_router)
 app.include_router(multiply_router)
+app.include_router(divide_router)

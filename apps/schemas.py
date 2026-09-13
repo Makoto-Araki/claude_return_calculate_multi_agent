@@ -46,6 +46,42 @@ class MultiplyRequest(BaseModel):
     b: PositiveInt
 
 
+class DivideRequest(BaseModel):
+    """除算エンドポイントのリクエストモデル。
+
+    Parameters
+    ----------
+    a : PositiveInt
+        被除数(正の整数)。
+    b : PositiveInt
+        除数(正の整数)。
+    """
+
+    a: PositiveInt
+    b: PositiveInt
+
+
+class DivideResponse(BaseModel):
+    """除算エンドポイントのレスポンスモデル。
+
+    Parameters
+    ----------
+    operation : str
+        実行した演算名(例: "divide")。
+    a : int
+        被除数。
+    b : int
+        除数。
+    result : float
+        演算結果。
+    """
+
+    operation: str
+    a: int
+    b: int
+    result: float
+
+
 class CalculationResponse(BaseModel):
     """四則演算APIの共通レスポンスモデル。
 
