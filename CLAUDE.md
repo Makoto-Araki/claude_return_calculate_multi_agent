@@ -4,7 +4,7 @@
 
 ## プロジェクトの現状
 
-本リポジトリはマルチエージェント並行実装のPhase0(基盤構築)が完了した状態です。`CLAUDE.md`・`README.md`・`specs/`(add/subtract/multiply/divide/deployment/ci/lint)に加えて、`apps/`(FastAPIインスタンス・`CalculationResponse`のみの雛形)・`tests/`(スモークテスト1件)・`pyproject.toml`・`Dockerfile`・`k8s/`・CIワークフロー(`.github/workflows/`)が導入済みです。四則演算(add/subtract/multiply/divide)のルーター・テストの実装はPhase1でこれから行います。
+本リポジトリはマルチエージェント並行実装のPhase0(基盤構築)・Phase1(4演算の並行実装)・Phase2(統合確認)がすべて完了した状態です。`CLAUDE.md`・`README.md`・`specs/`(add/subtract/multiply/divide/deployment/ci/lint)に加えて、`apps/`(FastAPIインスタンス・4演算(add/subtract/multiply/divide)のルーター・`CalculationResponse`/各`XxxRequest`)・`tests/unit/`(4演算分のユニットテスト計47件、すべてGreen)・`pyproject.toml`・`Dockerfile`・`k8s/`・CIワークフロー(`.github/workflows/`)が導入済みです。4演算のブランチはいずれもmainにマージ済みで、Docker Desktop上のKubernetes(Namespace `calculator-api`)への再デプロイ後、`POST /calculate/<operation>`(add/subtract/multiply/divide)の正常系(200)・異常系(422)動作を実機で再確認済みです。
 
 `specs/`は、別リポジトリでSDD(仕様駆動開発)を行っていた際に作成した要件定義・設計ドキュメントをそのまま引き継いだものです。引き継ぎ元では各 `tasks.md` のチェックボックスはすべて `[x]`(完了)でしたが、本リポジトリでは実装状況を正しく表すため**すべて `[ ]`(未チェック)に戻して**あります。本リポジトリでは要件・設計(`requirements.md`・`design.md`)はそのまま仕様源として使いますが、実装の進め方はSDDではなく**TDD(テスト駆動開発)**で行います(詳細は[TDDでの実装の進め方](#tddでの実装の進め方)を参照)。各項目は、対応する演算のPhase1サイクル(テストエージェント→実装エージェント→レビューエージェント)が完了した時点でチェックを入れていくこと。
 
