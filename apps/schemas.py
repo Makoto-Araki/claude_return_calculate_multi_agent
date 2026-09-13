@@ -31,6 +31,21 @@ class SubtractRequest(BaseModel):
     b: PositiveInt
 
 
+class MultiplyRequest(BaseModel):
+    """乗算エンドポイントのリクエストモデル。
+
+    Parameters
+    ----------
+    a : PositiveInt
+        被乗数(正の整数)。
+    b : PositiveInt
+        乗数(正の整数)。
+    """
+
+    a: PositiveInt
+    b: PositiveInt
+
+
 class CalculationResponse(BaseModel):
     """四則演算APIの共通レスポンスモデル。
 
